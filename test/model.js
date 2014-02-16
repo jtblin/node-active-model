@@ -55,6 +55,8 @@ describe('active-model', function () {
       var rectangle = new Rectangle({ width: 2, height: 3 });
       rectangle.perimeter.should.be.equal(10);
     });
+
+    // TODO: add test for validations
   });
 
   describe('augment', function () {

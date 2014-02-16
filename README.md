@@ -22,6 +22,7 @@ Validations supported at the moment are type validation for `Number` and `String
 
 #### Example
 
+    var model = require('active-model').model;
     var assert = require('assert');
 
     var Rectangle = model({
@@ -36,9 +37,11 @@ Validations supported at the moment are type validation for `Number` and `String
       methods: {
         area: function () { return this.width * this.height; }
       },
-      perimeter: {
-        get: function () {
-          return (this.width + this.height) * 2;
+      properties: {
+        perimeter: {
+          get: function () {
+            return (this.width + this.height) * 2;
+          }
         }
       }
     });
@@ -56,6 +59,7 @@ Create a new object inherited form superclass with class methods added to object
 
 #### Example
 
+    var augment = require('active-model').augment;
     var Square = augment(Rectangle, {
         constructor: function (side) {
             Rectangle.call(this, side, side);
