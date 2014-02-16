@@ -1,0 +1,30 @@
+{
+  "name": "active-model",
+  "version": "0.0.1",
+  "description": "Active Models for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha -w test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jtblin/node-active-model"
+  },
+  "keywords": [
+    "model",
+    "inherit",
+    "extend",
+    "object",
+    "validation",
+    "active"
+  ],
+  "author": "Jerome Touffe-Blin <jtblin@gmail.com> (http://about.me/jtblin)",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/jtblin/node-active-model/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.17.1",
+    "chai": "~1.9.0"
+  }
+}
