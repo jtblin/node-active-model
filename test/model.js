@@ -56,7 +56,10 @@ describe('active-model', function () {
       rectangle.perimeter.should.be.equal(10);
     });
 
-    // TODO: add test for validations
+    it('validates property types', function () {
+      var incorrectType = function () { return new Rectangle({ width: 2, height: '3' })};
+      expect(incorrectType).to.throw(/"string" == "number"/);
+    });
   });
 
   describe('augment', function () {

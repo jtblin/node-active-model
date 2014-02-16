@@ -1,7 +1,8 @@
 # ActiveModel
 
-Simple "active" models with clean inheritance and basic validations for Node.JS inspired by 'mongoose'. Models only keep
-pre-defined properties which protect against properties leakage and ensure your models remain clean.
+Data source agnostic opinionated models for Node.js with classic inheritance, basic validations and a clean API.
+Models only keep pre-defined properties on initialization which protect against property leakage and ensure your
+models remain clean however tey are instantiated.
 
 ## Api
 
@@ -71,3 +72,9 @@ Create a new object inherited form superclass with class methods added to object
     assert.equal(square.height, 3);
     assert.equal(square.area(), 9);
     assert.equal(square instanceof Rectangle, true);
+
+## Credits
+
+- `augment` method based on [jashkenas](https://news.ycombinator.com/user?id=jashkenas)'s comment in
+[Hacker News thread](https://news.ycombinator.com/item?id=7243414)
+- API loosely inspired by [mongoose](http://mongoosejs.com/)
