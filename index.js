@@ -6,10 +6,11 @@ exports.augment = augment;
 function model (schema) {
   var properties = {}, attrs = schema.attributes, methods = schema.methods, props = schema.properties;
   properties.constructor = function (obj) {
+    if (! (this instanceof properties.constructor)) return new properties.constructor(obj);
     if (schema.hasOwnProperty('constructor')) schema.constructor.apply(this, arguments);
     for (var key in attrs) {
       if (attrs.hasOwnProperty(key)) {
-        if (obj.hasOwnProperty(key)) {
+        if (obj && obj.hasOwnProperty(key)) {
           this.validate(obj[key], attrs[key]);
           this[key] = obj[key];
         }

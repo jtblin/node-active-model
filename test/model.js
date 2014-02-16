@@ -34,7 +34,7 @@ describe('active-model', function () {
   });
 
   describe('model', function () {
-    it('sets the properties', function () {
+    it('sets the attributes', function () {
       var rectangle = new Rectangle({ width: 2, height: 3 });
       rectangle.width.should.be.equal(2);
       rectangle.height.should.be.equal(3);
@@ -59,6 +59,16 @@ describe('active-model', function () {
     it('validates property types', function () {
       var incorrectType = function () { return new Rectangle({ width: 2, height: '3' })};
       expect(incorrectType).to.throw(/"string" == "number"/);
+    });
+
+    it('always returns a new instance', function () {
+      var rectangle = Rectangle({ width: 2, height: 3 });
+      expect(rectangle).to.be.instanceOf(Rectangle);
+    });
+
+    it('supports initialization with undefined', function () {
+      var rectangle = new Rectangle();
+      expect(rectangle).to.exist;
     });
   });
 
