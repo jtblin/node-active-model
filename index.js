@@ -10,9 +10,8 @@ function model (schema) {
     if (schema.hasOwnProperty('constructor')) schema.constructor.apply(this, arguments);
     for (var key in attrs) {
       if (attrs.hasOwnProperty(key)) {
-        if (obj && obj.hasOwnProperty(key)) {
-          this.validate(obj[key], attrs[key]);
-          this[key] = obj[key];
+        if (obj && obj.hasOwnProperty(key) && obj[key]) {
+          this[key] = this.validate(obj[key], attrs[key]);
         }
       }
     }
@@ -42,11 +41,25 @@ function model (schema) {
 
 var Model = augment(Object, {
   validate: function (value, expected) {
-    [String, Number].forEach(function (clazz) {
-      if (expected === clazz)
-        assert.equal(typeof value, clazz.name.toLowerCase());
+    [String, Number, Boolean].forEach(function (clazz) {
+      if (expected === clazz) {
+        // TODO: break;
+        var className = clazz.name.toLowerCase();
+        if (typeof value !== className) {
+          try {
+            value = clazz(value);
+          }
+          catch (e) {
+            // TODO: improve error messaging i.e. indicate key
+            assert.equal(typeof value, className);
+          }
+          if (clazz === Number && isNaN(value)) assert.equal(typeof 'string', className);
+        }
+      }
     });
     // TODO: more validation types
+
+    return value;
   }
 });
 

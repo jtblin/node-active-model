@@ -12,7 +12,8 @@ describe('active-model', function () {
       },
       attributes: {
         height: Number,
-        width: Number
+        width: Number,
+        name: String
       },
       methods: {
         area: function () { return this.width * this.height; }
@@ -35,9 +36,10 @@ describe('active-model', function () {
 
   describe('model', function () {
     it('sets the attributes', function () {
-      var rectangle = new Rectangle({ width: 2, height: 3 });
+      var rectangle = new Rectangle({ width: 2, height: 3, name: 'rec'});
       rectangle.width.should.be.equal(2);
       rectangle.height.should.be.equal(3);
+      rectangle.name.should.be.equal('rec');
     });
 
     it('only keeps defined properties', function () {
@@ -56,11 +58,6 @@ describe('active-model', function () {
       rectangle.perimeter.should.be.equal(10);
     });
 
-    it('validates property types', function () {
-      var incorrectType = function () { return new Rectangle({ width: 2, height: '3' })};
-      expect(incorrectType).to.throw(/"string" == "number"/);
-    });
-
     it('always returns a new instance', function () {
       var rectangle = Rectangle({ width: 2, height: 3 });
       expect(rectangle).to.be.instanceOf(Rectangle);
@@ -70,6 +67,25 @@ describe('active-model', function () {
       var rectangle = new Rectangle();
       expect(rectangle).to.exist;
     });
+
+    describe('validations', function () {
+      it('validates property types', function () {
+        var incorrectType = function () { return new Rectangle({ width: 2, height: 'abc' })};
+        expect(incorrectType).to.throw(/"string" == "number"/);
+      });
+
+      it('casts to correct type', function () {
+        var rectangle = new Rectangle({ width: 2, height: '3' });
+        rectangle.height.should.be.equal(3);
+      });
+
+      it('does not try to validate undefined or null value', function () {
+        var rectangle = new Rectangle({ width: 2, name: null });
+        rectangle.width.should.be.equal(2);
+      });
+
+    });
+
   });
 
   describe('augment', function () {
