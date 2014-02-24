@@ -112,7 +112,7 @@ describe('active-model', function () {
     describe('validations', function () {
       it('validates property types', function () {
         var incorrectType = function () { return new Rectangle({ width: 2, height: 'abc' })};
-        expect(incorrectType).to.throw(/"string" == "number"/);
+        expect(incorrectType).to.throw(/Expected "height"to be a number/);
       });
 
       it('casts to correct type', function () {
