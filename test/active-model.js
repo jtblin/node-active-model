@@ -107,12 +107,30 @@ describe('active-model', function () {
         var rectangle = new Rectangle(2, 3);
         rectangle.area().should.be.equal(6);
       });
+
+      it('allows objects', function () {
+        var Post = model({
+          title: String,
+          comments: Object
+        });
+        var post = new Post({title: 'Great article', comments: {'John': 'Awesome'}});
+        post.comments['John'].should.equal('Awesome');
+      });
+
+      it('allows arrays', function () {
+        var Post = model({
+          title: String,
+          comments: Array
+        });
+        var post = new Post({title: 'Great article', comments: ['Awesome']});
+        post.comments[0].should.equal('Awesome');
+      });
     });
 
     describe('validations', function () {
       it('validates property types', function () {
         var incorrectType = function () { return new Rectangle({ width: 2, height: 'abc' })};
-        expect(incorrectType).to.throw(/Expected "height"to be a number/);
+        expect(incorrectType).to.throw('Expected value of "height"to be a number');
       });
 
       it('casts to correct type', function () {
@@ -123,6 +141,24 @@ describe('active-model', function () {
       it('does not try to validate undefined or null value', function () {
         var rectangle = new Rectangle({ width: 2, name: null });
         rectangle.width.should.be.equal(2);
+      });
+
+      it('validates objects correctly', function () {
+        var Post = model({
+          title: String,
+          comments: Object
+        });
+        var incorrectType = function () { return new Post({title: 'Great article', comments: ['Awesome']})};
+        expect(incorrectType).to.throw('Expected "comments" to be an object but found an array');
+      });
+
+      it('validates arrays correctly', function () {
+        var Post = model({
+          title: String,
+          comments: Array
+        });
+        var incorrectType = function () { return new Post({title: 'Great article', comments: {'John': 'Awesome'}})};
+        expect(incorrectType).to.throw('Expected "comments" to be an array but found [object Object]');
       });
 
     });
