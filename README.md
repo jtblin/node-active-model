@@ -55,6 +55,39 @@ of the correct type, the model will try to cast them to the correct one, otherwi
     assert.equal(rectangle.area(), 6);
     assert.equal(rectangle.perimeter, 10);
 
+It is also possible to configure the attributes, methods, and properties individually.
+
+    var model = require('active-model').model;
+    var assert = require('assert');
+
+    var Rectangle = model({
+        height: Number,
+        width: Number,
+          constructor: function (width, height) {
+          this.height = height;
+          this.width = width;
+        }
+    });
+
+    Rectangle.methods({
+      area: function () { return this.width * this.height; }
+    });
+
+    Rectangle.properties({
+      perimeter: {
+        get: function () {
+          return (this.width + this.height) * 2;
+        }
+      }
+    });
+
+    var rectangle = new Rectangle({ width: 2, height: 3, unknown: true });
+    assert.equal(rectangle.width, 2);
+    assert.equal(rectangle.height, 3);
+    assert.notEqual(rectangle.unknown, true);
+    assert.equal(rectangle.area(), 6);
+    assert.equal(rectangle.perimeter, 10);
+
 ### augment(superclass, properties)
 
 Create a new object inherited form superclass with class methods added to object and properties added to object instances.
