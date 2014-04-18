@@ -15,12 +15,13 @@ Create and return a new model based on schema.
 - attributes: object with allowed attributes as key and validation as value e.g. `width: Number`
 - constructor: custom constructor for model that will be executed before model initialization
 - methods: methods for the model instances
-- properties: object with properties to define as `Object.defineProperty` e.g. `myprop: { get: function () {return this._myprop } }`
+- properties: object with properties to define as `Object.defineProperty` e.g. `area: { get: function () {return this.width * this.height } }`
 
 #### Validations
 
-Validations supported at the moment are type validation for `Number`, `String`, and `Boolean`. When values are not
-of the correct type, the model will try to cast them to the correct one, otherwise it will throw an error.
+Validations supported at the moment are type validation for `Number`, `String`, `Boolean`, `Object`, and `Array`.
+When values are not of the correct type, the model will try to cast them to the correct one, otherwise it will throw
+an error.
 
 #### Example
 
@@ -31,10 +32,6 @@ of the correct type, the model will try to cast them to the correct one, otherwi
       attributes: {
         height: Number,
         width: Number
-      },
-      constructor: function (width, height) {
-        this.height = height;
-        this.width = width;
       },
       methods: {
         area: function () { return this.width * this.height; }
@@ -62,11 +59,7 @@ It is also possible to configure the attributes, methods, and properties individ
 
     var Rectangle = model({
         height: Number,
-        width: Number,
-          constructor: function (width, height) {
-          this.height = height;
-          this.width = width;
-        }
+        width: Number
     });
 
     Rectangle.methods({
@@ -87,6 +80,24 @@ It is also possible to configure the attributes, methods, and properties individ
     assert.notEqual(rectangle.unknown, true);
     assert.equal(rectangle.area(), 6);
     assert.equal(rectangle.perimeter, 10);
+
+Use a custom constructor
+
+    var model = require('active-model').model;
+    var assert = require('assert');
+
+    var Rectangle = model({
+        height: Number,
+        width: Number,
+        constructor: function (width, height) {
+          this.width = width;
+          this.height = height;
+        }
+    });
+
+    var rectangle = new Rectangle(2, 3);
+    assert.equal(rectangle.width, 2);
+    assert.equal(rectangle.height, 3);
 
 ### augment(superclass, properties)
 
