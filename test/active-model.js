@@ -130,12 +130,22 @@ describe('active-model', function () {
     describe('validations', function () {
       it('validates property types', function () {
         var incorrectType = function () { return new Rectangle({ width: 2, height: 'abc' })};
-        expect(incorrectType).to.throw('Expected value of "height"to be a number');
+        expect(incorrectType).to.throw('Expected value of "height" to be a number');
       });
 
       it('casts to correct type', function () {
         var rectangle = new Rectangle({ width: 2, height: '3' });
         rectangle.height.should.be.equal(3);
+      });
+
+      it('casts dates to correct type', function () {
+        var Post = model({
+          title: String,
+          created: Date
+        });
+        var post = new Post({title: 'Great article', created: 'Fri Sep 05 2014 21:28:16 GMT+1000 (EST)'});
+        post.created.should.be.an.instanceOf(Date);
+        post.created.should.deep.equal(new Date('Fri Sep 05 2014 21:28:16 GMT+1000 (EST)'));
       });
 
       it('does not try to validate undefined or null value', function () {
@@ -159,6 +169,15 @@ describe('active-model', function () {
         });
         var incorrectType = function () { return new Post({title: 'Great article', comments: {'John': 'Awesome'}})};
         expect(incorrectType).to.throw('Expected "comments" to be an array but found [object Object]');
+      });
+
+      it('validates dates correctly', function () {
+        var Post = model({
+          title: String,
+          created: Date
+        });
+        var incorrectType = function () { return new Post({title: 'Great article', created: 'Awesome'})};
+        expect(incorrectType).to.throw('Expected value of "created" to be a date');
       });
 
     });

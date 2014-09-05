@@ -19,7 +19,7 @@ Create and return a new model based on schema.
 
 #### Validations
 
-Validations supported at the moment are type validation for `Number`, `String`, `Boolean`, `Object`, and `Array`.
+Validations supported at the moment are type validation for `Number`, `String`, `Boolean`, `Date`, `Object`, and `Array`.
 When values are not of the correct type, the model will try to cast them to the correct one, otherwise it will throw
 an error.
 
