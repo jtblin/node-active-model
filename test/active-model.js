@@ -125,6 +125,14 @@ describe('active-model', function () {
         var post = new Post({title: 'Great article', comments: ['Awesome']});
         post.comments[0].should.equal('Awesome');
       });
+
+      it('allows defining properties as objects', function () {
+        var Post = model({
+          title: { type: String }
+        });
+        var post = new Post({title: 'Great article'});
+        post.title.should.equal('Great article');
+      });
     });
 
     describe('validations', function () {
@@ -146,6 +154,15 @@ describe('active-model', function () {
         var post = new Post({title: 'Great article', created: 'Fri Sep 05 2014 21:28:16 GMT+1000 (EST)'});
         post.created.should.be.an.instanceOf(Date);
         post.created.should.deep.equal(new Date('Fri Sep 05 2014 21:28:16 GMT+1000 (EST)'));
+      });
+
+      it('casts properties properties defined as objects', function () {
+        var Post = model({
+          title: { type: String }
+        });
+        var post = new Post({title: 1});
+        post.title.should.be.a('string');
+        post.title.should.equal('1');
       });
 
       it('does not try to validate undefined or null value', function () {
@@ -179,7 +196,6 @@ describe('active-model', function () {
         var incorrectType = function () { return new Post({title: 'Great article', created: 'Awesome'})};
         expect(incorrectType).to.throw('Expected value of "created" to be a date');
       });
-
     });
 
   });

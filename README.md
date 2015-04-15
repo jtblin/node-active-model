@@ -59,7 +59,7 @@ It is also possible to configure the attributes, methods, and properties individ
 
     var Rectangle = model({
         height: Number,
-        width: Number
+        width: { type: Number } // support object notation
     });
 
     Rectangle.methods({
